@@ -8,10 +8,12 @@ function encode(string) {
     if (char === string[index + 1]) {
       count += 1;
     } else {
-      if (count > 1) char = String(count) + char;
+      if (count > 1) {
+        char = String(count) + char;
+        count = 1;
+      }
 
       encodedString += char;
-      count = 1;
     }
   }
 
@@ -27,23 +29,13 @@ function decode(string) {
 
     if (Number(char)) {
       let indexStart = index;
-      let numberLength = 1;
       while (true) {
         index += 1;
-        let next = string[index];
-        if (Number(next)) {
-          numberLength += 1;
-        } else {
-          break;
-        }
+        if (!Number(string[index])) break;
       }
 
-      let count = Number(string.slice(indexStart, indexStart + numberLength));
-      char = '';
-
-      for (let current = 1; current <= count; current += 1) {
-        char += string[index];
-      }
+      let count = Number(string.slice(indexStart, index));
+      char = string[index].repeat(count);
     }
 
     decodedString += char;
