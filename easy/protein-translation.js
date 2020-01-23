@@ -1,4 +1,4 @@
-const CODON_TO_PROTEIN = {
+const CODON_TO_POLYPEPTIDE = {
   'AUG': 'Methionine',
   'UUU': 'Phenylalanine', 
   'UUC': 'Phenylalanine',
@@ -22,7 +22,7 @@ function translate(rna = '') {
   let proteins = [];
 
   for (let index = 0; index < rna.length; index += 3) {
-    let protein = CODON_TO_PROTEIN[rna.slice(index, index + 3)];
+    let protein = CODON_TO_POLYPEPTIDE[rna.slice(index, index + 3)];
 
     if (protein === 'STOP') break;
     if (protein === undefined) throw new Error('Invalid codon');
