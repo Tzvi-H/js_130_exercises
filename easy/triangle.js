@@ -1,56 +1,29 @@
 class Triangle {
-  constructor(side1, side2, side3) {
-    this.side1 = side1;
-    this.side2 = side2;
-    this.side3 = side3;
+  constructor(...sides) {
+    this.sides = sides;
   }
 
-  static validTriangle(triangle) {
-    return (
-      triangle.side1 > 0 &&
-      triangle.side2 > 0 &&
-      triangle.side3 > 0
-    ) && (
-      triangle.side1 <= triangle.side2 + triangle.side3 &&
-      triangle.side2 <= triangle.side1 + triangle.side3 &&
-      triangle.side3 <= triangle.side1 + triangle.side2
-    );
-  }
-
-  static equilateral(triangle) {
-    return (
-      triangle.side1 === triangle.side2 &&
-      triangle.side1 === triangle.side3
-    );
-  }
-
-  static isosceles(triangle) {
-    return (
-      triangle.side1 === triangle.side2 ||
-      triangle.side1 === triangle.side3 ||
-      triangle.side2 === triangle.side3
-    );
-  }
-
-  static scalene(triangle) {
-    return (
-      triangle.side1 !== triangle.side2 &&
-      triangle.side1 !== triangle.side3 &&
-      triangle.side2 !== triangle.side3
-    );
+  validateTriangle(side1, side2, side3) {
+    if (side1 <= 0 || side2 <= 0 || side3 <= 0) {
+      throw new Error('each side needs to be greater than 0');
+    } else if (
+      side1 + side2 < side3 ||
+      side1 + side3 < side2 ||
+      side2 + side3 < side1
+    ) throw new Error('violation of triangle inequality')
   }
 
   kind() {
-    if (!Triangle.validTriangle(this)) {
-      throw new TypeError('not a valid triangle');
-    } else if (Triangle.equilateral(this)) {
+    this.validateTriangle(...this.sides);
+
+    let [ side1, side2, side3 ] = this.sides;
+
+    if (side1 === side2 && side1 === side3) {
       return 'equilateral';
-    } else if (Triangle.isosceles(this)) {
+    } else if (side1 === side2 || side1 === side3 || side2 === side3) {
       return 'isosceles';
-    } else if (Triangle.scalene(this)) {
-      return 'scalene';
     } else {
-      return null;
+      return 'scalene';
     }
   }
 }
