@@ -18,19 +18,21 @@ const CODON_TO_POLYPEPTIDE = {
   'UGA': 'STOP'	
 }
 
-function translate(rna = '') {
-  let proteins = [];
+function translate(rna) {
+  const CODON_LENGTH = 3;
+  let protein = [];
+  if (!rna) return protein
 
-  for (let index = 0; index < rna.length; index += 3) {
-    let protein = CODON_TO_POLYPEPTIDE[rna.slice(index, index + 3)];
+  for (let index = 0; index < rna.length; index += CODON_LENGTH) {
+    let polypeptide = CODON_TO_POLYPEPTIDE[rna.slice(index, index + CODON_LENGTH)];
 
-    if (protein === 'STOP') break;
-    if (protein === undefined) throw new Error('Invalid codon');
+    if (polypeptide === 'STOP') break;
+    if (!polypeptide) throw new Error('Invalid codon');
 
-    proteins.push(protein);
+    protein.push(polypeptide);
   }
 
-  return proteins;
+  return protein;
 }
 
 module.exports = translate;
